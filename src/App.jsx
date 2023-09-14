@@ -38,7 +38,7 @@ const App = () => {
 
   const addScore = (event) => {
     event.preventDefault()
-    const duplicateEntry = scores.find(clocker => clocker.name === clockerName)
+    const duplicateEntry = scores.find(clocker => clocker.name === clockerName && clockerName !== "")
     if (duplicateEntry !== undefined) {
       if (duplicateEntry.time > elapsedTime) {
         if (window.confirm(`Replace score of ${duplicateEntry.name}? previous time: ${duplicateEntry.time / 1000}, new time: ${elapsedTime / 1000}`)) {
@@ -47,6 +47,10 @@ const App = () => {
             .put(`http://localhost:3001/scores/${duplicateEntry.id}`, changedScore)
             .then(returnedScore => {
               setScores(scores.map(scorer => scorer.id !== duplicateEntry.id ? scorer : returnedScore.data))
+              setHighlightedScoreId(returnedScore.data.id)
+              setTimeout(() => {
+                setHighlightedScoreId(null)
+              }, 5000)
               setClockerName('')
             })
         }
@@ -76,36 +80,39 @@ const App = () => {
   const sortedScores = scores.slice().sort((a, b) => a.time - b.time);
 
   return (
-    <div className="stopwatch">
-      <h1>Stopwatch</h1>
-      <div className="time">
+    <div className='container'>
+      <div className="stopwatch">
+        <img src='././public/logo.png'></img>
+        <h1><a href='http://etä.kellot.us' target='_blank'>Kellot.us</a></h1>
+        <div className="time">
+        </div>
+        <div>
+          <h2>
+            {elapsedTime / 1000}
+          </h2>
+        </div>
+        <button onClick={() => handleStartPause()}>
+          {isRunning ? 'Pause' : 'Start'}
+        </button>
+        <button onClick={() => handleReset()}>Reset</button>
+        <form onSubmit={addScore}>
+          <input
+            value={clockerName}
+            onChange={handleClockerNameChange}
+          />
+          <button type='submit'>add</button>
+        </form>
+        <ol>
+          {sortedScores.map(scorer =>
+            <li
+              key={scorer.id}
+              className={scorer.id === highligtedScoreId ? 'highlighted-score' : ''}
+            >
+              <strong className='times'>{scorer.time / 1000}</strong> {scorer.name}
+            </li>
+          )}
+        </ol>
       </div>
-      <div>
-        <h2>
-          {elapsedTime / 1000}
-        </h2>
-      </div>
-      <button onClick={() => handleStartPause()}>
-        {isRunning ? 'Pause' : 'Start'}
-      </button>
-      <button onClick={() => handleReset()}>Reset</button>
-      <form onSubmit={addScore}>
-        <input
-          value={clockerName}
-          onChange={handleClockerNameChange}
-        />
-        <button type='submit'>add</button>
-      </form>
-      <ol>
-        {sortedScores.map(scorer =>
-          <li
-            key={scorer.id}
-            className={scorer.id === highligtedScoreId ? 'highlighted-score' : ''}
-          >
-            {scorer.time / 1000} {scorer.name}
-          </li>
-        )}
-      </ol>
     </div>
   );
 }
