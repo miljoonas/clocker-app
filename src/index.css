@@ -143,6 +143,9 @@ li {
 .togglebutton{
   background-color: #e45f05;
   color: #fa7e29;
+  position:absolute;
+  top: 0px;
+  right: 0px;
 }
 
 .elapsedtime{
