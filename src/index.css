@@ -42,15 +42,13 @@ h1 {
 button {
   border-radius: 8px;
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  /* padding: 0.6em 1.2em; */
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
-  flex: 1;
-  gap: 3px
 }
 
 button:hover {
@@ -67,7 +65,7 @@ button:focus-visible {
 }
 
 ol {
-  width: 200px;
+  width: 250px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -102,11 +100,22 @@ li {
   color: bisque
 }
 
+.startbutton {
+  padding: 0.6em 1.2em;
+}
+
 .resetbutton {
   flex: auto;
   margin-left: 4px;
+  padding: 0.6em 1.2em;
 }
 
 .addbutton {
   margin-left: 4px;
+  padding: 0.6em 1.2em;
+
+}
+
+.editbutton {
+  margin-right: 5px;
 }

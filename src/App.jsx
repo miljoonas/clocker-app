@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 
 const App = () => {
-  const [elapsedTime, setElapsedTime] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
-  const countRef = useRef(null);
+  const [elapsedTime, setElapsedTime] = useState(0)
+  const [isRunning, setIsRunning] = useState(false)
+  const countRef = useRef(null)
   const [clockerName, setClockerName] = useState('')
   const [scores, setScores] = useState([])
   const [highligtedScoreId, setHighlightedScoreId] = useState(null)
@@ -19,21 +19,21 @@ const App = () => {
 
   const handleStartPause = () => {
     if (!isRunning) {
-      const startTime = Date.now() - elapsedTime;
+      const startTime = Date.now() - elapsedTime
       countRef.current = setInterval(() => {
-        setElapsedTime(Date.now() - startTime);
-      }, 10);
-      setIsRunning(true);
+        setElapsedTime(Date.now() - startTime)
+      }, 10)
+      setIsRunning(true)
     } else {
-      clearInterval(countRef.current);
-      setIsRunning(false);
+      clearInterval(countRef.current)
+      setIsRunning(false)
     }
   }
 
   const handleReset = () => {
-    clearInterval(countRef.current);
-    setIsRunning(false);
-    setElapsedTime(0);
+    clearInterval(countRef.current)
+    setIsRunning(false)
+    setElapsedTime(0)
   }
 
   const addScore = (event) => {
@@ -77,10 +77,43 @@ const App = () => {
 
   const handleClockerNameChange = (event) => { setClockerName(event.target.value) }
 
-  const sortedScores = scores.slice().sort((a, b) => a.time - b.time);
+  const sortedScores = scores.slice().sort((a, b) => a.time - b.time)
+
+  const [editingScore, setEditingScore] = useState(null)
+  const [newName, setNewName] = useState('')
+
+  const handleEditScore = (score) => {
+    setEditingScore(score)
+    setNewName(score.name)
+  }
+
+  const saveEditedName = () => {
+    if (editingScore && newName.trim() !== '') {
+      const updatedScore = { ...editingScore, name: newName }
+      axios
+        .put(`http://localhost:3001/scores/${editingScore.id}`, updatedScore)
+        .then((returnedScore) => {
+          setScores((prevScores) =>
+            prevScores.map((score) =>
+              score.id === returnedScore.data.id ? returnedScore.data : score
+            )
+          )
+          setEditingScore(null)
+        })
+    }
+  }
+
+  const [editButtonsVisible, setEditButtonsVisible] = useState(false);
+
+  const toggleEditButtonsVisibility = () => {
+    setEditButtonsVisible((prevVisible) => !prevVisible);
+  };
 
   return (
     <div className='container'>
+      <button onClick={toggleEditButtonsVisibility}>
+        {editButtonsVisible ? 'X' : 'O'}
+      </button>
       <div className="stopwatch">
         <img src='././public/hankkija.svg'></img>
         <h1><a href='http://etä.kellot.us' target='_blank'>Kellot.us</a></h1>
@@ -103,18 +136,34 @@ const App = () => {
           <button className='addbutton' type='submit'>add</button>
         </form>
         <ol>
-          {sortedScores.map(scorer =>
+          {sortedScores.map((scorer) => (
             <li
               key={scorer.id}
               className={scorer.id === highligtedScoreId ? 'highlighted-score' : ''}
             >
-              <strong className='times'>{scorer.time / 1000}</strong> {scorer.name}
+              {editingScore === scorer ? (
+                <div>
+                  <input
+                    type="text"
+                    value={newName}
+                    onChange={(e) => setNewName(e.target.value)}
+                  />
+                  <button onClick={saveEditedName}>Save</button>
+                </div>
+              ) : (
+                <div>
+                  <strong className="times">{scorer.time / 1000}</strong> {scorer.name}
+                  {editButtonsVisible && (
+                    <button className='editButton' onClick={() => handleEditScore(scorer)}>Edit</button>
+                  )}
+                </div>
+              )}
             </li>
-          )}
+          ))}
         </ol>
       </div>
     </div>
-  );
+  )
 }
 
 export default App
