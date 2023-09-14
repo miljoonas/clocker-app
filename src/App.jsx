@@ -8,6 +8,12 @@ const App = () => {
   const [clockerName, setClockerName] = useState('')
   const [scores, setScores] = useState([])
   const [highligtedScoreId, setHighlightedScoreId] = useState(null)
+  const [editingScore, setEditingScore] = useState(null)
+  const [newName, setNewName] = useState('')
+  const [editButtonsVisible, setEditButtonsVisible] = useState(false);
+
+  const handleClockerNameChange = (event) => { setClockerName(event.target.value) }
+  const sortedScores = scores.slice().sort((a, b) => a.time - b.time)
 
   useEffect(() => {
     axios
@@ -75,13 +81,6 @@ const App = () => {
     }
   }
 
-  const handleClockerNameChange = (event) => { setClockerName(event.target.value) }
-
-  const sortedScores = scores.slice().sort((a, b) => a.time - b.time)
-
-  const [editingScore, setEditingScore] = useState(null)
-  const [newName, setNewName] = useState('')
-
   const handleEditScore = (score) => {
     setEditingScore(score)
     setNewName(score.name)
@@ -102,8 +101,6 @@ const App = () => {
         })
     }
   }
-
-  const [editButtonsVisible, setEditButtonsVisible] = useState(false);
 
   const toggleEditButtonsVisibility = () => {
     setEditButtonsVisible((prevVisible) => !prevVisible);
