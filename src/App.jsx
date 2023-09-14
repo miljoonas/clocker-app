@@ -102,13 +102,22 @@ const App = () => {
     }
   }
 
+  const deleteScore = id => {
+    if (window.confirm(`Delete ${scores.find(n => n.id === id).name}?`)) {
+      axios
+        .delete(`http://localhost:3001/scores/${id}`)
+        .then(() =>
+          setScores(scores.filter(scores => scores.id !== id)))
+    }
+  }
+
   const toggleEditButtonsVisibility = () => {
     setEditButtonsVisible((prevVisible) => !prevVisible);
   };
 
   return (
     <div className='container'>
-      <button onClick={toggleEditButtonsVisibility}>
+      <button className='togglebutton' onClick={toggleEditButtonsVisibility}>
         {editButtonsVisible ? 'X' : 'O'}
       </button>
       <div className="stopwatch">
@@ -117,7 +126,7 @@ const App = () => {
         <div className="time">
         </div>
         <div>
-          <h1>
+          <h1 className='elapsedtime'>
             {elapsedTime / 1000}
           </h1>
         </div>
@@ -151,7 +160,10 @@ const App = () => {
                 <div>
                   <strong className="times">{scorer.time / 1000}</strong> {scorer.name}
                   {editButtonsVisible && (
-                    <button className='editButton' onClick={() => handleEditScore(scorer)}>Edit</button>
+                    <button className='editbutton' onClick={() => handleEditScore(scorer)}>Edit</button>
+                  )}
+                  {editButtonsVisible && (
+                    <button className='deletebutton' onClick={() => deleteScore(scorer.id)}>X</button>
                   )}
                 </div>
               )}

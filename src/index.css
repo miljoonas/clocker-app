@@ -65,9 +65,10 @@ button:focus-visible {
 }
 
 ol {
-  width: 250px;
+  width: 240px;
   margin-left: auto;
   margin-right: auto;
+  text-align: center;
 }
 
 li {
@@ -97,7 +98,7 @@ li {
 }
 
 .times {
-  color: bisque
+  color: #fdcfb0;
 }
 
 .startbutton {
@@ -117,5 +118,33 @@ li {
 }
 
 .editbutton {
-  margin-right: 5px;
+  margin-left: 4px;
+  background-color: #bd4f04;
+  color: #fca063;
+}
+
+.editbutton:hover{
+  background-color: #aa4704;
+  border-color: #fa7e29;
+}
+
+.deletebutton {
+  margin-left: 4px;
+  background-color: #bd4f04;
+  border-radius: 50%;
+  color: #fca063;
+}
+
+.deletebutton:hover {
+  background-color: #aa4704;
+  border-color: #fa7e29;
+}
+
+.togglebutton{
+  background-color: #e45f05;
+  color: #fa7e29;
+}
+
+.elapsedtime{
+  color: #fdcfb0;
 }
