@@ -82,25 +82,25 @@ const App = () => {
   return (
     <div className='container'>
       <div className="stopwatch">
-        <img src='././public/logo.png'></img>
+        <img src='././public/hankkija.svg'></img>
         <h1><a href='http://etä.kellot.us' target='_blank'>Kellot.us</a></h1>
         <div className="time">
         </div>
         <div>
-          <h2>
+          <h1>
             {elapsedTime / 1000}
-          </h2>
+          </h1>
         </div>
-        <button onClick={() => handleStartPause()}>
+        <button className='startbutton' onClick={() => handleStartPause()}>
           {isRunning ? 'Pause' : 'Start'}
         </button>
-        <button onClick={() => handleReset()}>Reset</button>
+        <button className='resetbutton' onClick={() => handleReset()}>Reset</button>
         <form onSubmit={addScore}>
           <input
             value={clockerName}
             onChange={handleClockerNameChange}
           />
-          <button type='submit'>add</button>
+          <button className='addbutton' type='submit'>add</button>
         </form>
         <ol>
           {sortedScores.map(scorer =>
