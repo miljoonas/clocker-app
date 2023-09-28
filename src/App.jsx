@@ -127,7 +127,7 @@ const App = () => {
         </div>
         <div>
           <h1 className='elapsedtime'>
-            {elapsedTime / 1000}
+            {(elapsedTime / 1000).toFixed(3)}
           </h1>
         </div>
         <button className='startbutton' onClick={() => handleStartPause()}>

@@ -144,10 +144,13 @@ li {
   background-color: #e45f05;
   color: #fa7e29;
   position:absolute;
-  top: 0px;
+  bottom: 0px;
   right: 0px;
 }
 
 .elapsedtime{
   color: #fdcfb0;
+  width: 200px;
+  text-align: left;
+  padding-left: 130px;
 }
