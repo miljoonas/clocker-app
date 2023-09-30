@@ -56,7 +56,7 @@ const App = () => {
               setHighlightedScoreId(returnedScore.data.id)
               setTimeout(() => {
                 setHighlightedScoreId(null)
-              }, 5000)
+              }, 10000)
               setClockerName('')
             })
         }
@@ -121,8 +121,8 @@ const App = () => {
         {editButtonsVisible ? 'X' : 'O'}
       </button>
       <div className="stopwatch">
-        <img src='././public/hankkija.svg'></img>
-        <h1><a href='http://etä.kellot.us' target='_blank'>Kellot.us</a></h1>
+        <img src='./hankkija.svg'></img>
+        <h1><a href='http://etä.kellot.us' target='_blank'>Leaderboard</a></h1>
         <div className="time">
         </div>
         <div>
